@@ -132,3 +132,4 @@ final List<Content> trending = [
   Content(name: 'The Crown', imageUrl: Assets.crown),
   Content(name: 'Dogs', imageUrl: Assets.dogs),
 ];
+

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:netflix_mobile/data/api.dart';
 import 'package:netflix_mobile/models/content_model.dart';
+import 'package:netflix_mobile/screens/screens.dart';
 import 'package:video_player/video_player.dart';
 import 'widgets.dart';
 
@@ -33,7 +35,7 @@ class _ContentHeaderMobile extends StatelessWidget {
           height: 500.0,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: AssetImage(featuredContent.imageUrl),
+              image: NetworkImage(API.ip + featuredContent.imageUrl),
               fit: BoxFit.cover,
             ),
           ),
@@ -53,8 +55,8 @@ class _ContentHeaderMobile extends StatelessWidget {
           left: 75,
           right: 75,
           child: SizedBox(
-            child: Image.asset(
-              featuredContent.titleImageUrl,
+            child: Image.network(
+              API.ip + featuredContent.titleImageUrl,
             ),
             width: 100.0,
           ),
@@ -71,7 +73,7 @@ class _ContentHeaderMobile extends StatelessWidget {
                 title: 'Danh sách',
                 onTap: () => print('list'),
               ),
-              _PlayButton(),
+              _PlayButton(videoContent:featuredContent),
               VerticalIconButton(
                 icon: Icons.info_outline,
                 title: 'Thông tin',
@@ -100,7 +102,7 @@ class _ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
   void initState() {
     super.initState();
     _videoController = VideoPlayerController.networkUrl(
-        Uri.parse(widget.featuredContent.videoUrl))
+        Uri.parse(API.ip + widget.featuredContent.videoUrl))
       ..initialize().then((_) => setState(() {}))
       ..setVolume(0)
       ..play();
@@ -122,16 +124,12 @@ class _ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
         alignment: Alignment.bottomLeft,
         children: [
           AspectRatio(
-            aspectRatio: _videoController.value.isInitialized
-                ? _videoController.value.aspectRatio
-                : 2.344,
-            child: _videoController.value.isInitialized
-                ? VideoPlayer(_videoController)
-                : Image.asset(
-                    widget.featuredContent.imageUrl,
-                    fit: BoxFit.cover,
-                  ),
-          ),
+              aspectRatio: _videoController.value.isInitialized
+                  ? _videoController.value.aspectRatio
+                  : 2.344,
+              child: _videoController.value.isInitialized
+                  ? VideoPlayer(_videoController)
+                  : API.loadImageUrl(widget.featuredContent.imageUrl)),
           Positioned(
             bottom: -1.0,
             left: 0,
@@ -160,7 +158,7 @@ class _ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
               children: [
                 SizedBox(
                   width: 250.0,
-                  child: Image.asset(widget.featuredContent.titleImageUrl),
+                  child: API.loadImageUrl(widget.featuredContent.titleImageUrl),
                 ),
                 const SizedBox(
                   height: 15.0,
@@ -184,7 +182,7 @@ class _ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
                 ),
                 Row(
                   children: [
-                    _PlayButton(),
+                    _PlayButton(videoContent:widget.featuredContent),
                     const SizedBox(
                       width: 16.0,
                     ),
@@ -238,19 +236,24 @@ class _ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
 }
 
 class _PlayButton extends StatelessWidget {
-  const _PlayButton({super.key});
-
+  final Content videoContent;
+  _PlayButton({required this.videoContent});
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       style: ButtonStyle(
+          backgroundColor:
+              MaterialStateColor.resolveWith((states) => Colors.white),
           padding: MaterialStateProperty.resolveWith(
             (states) => !Responsive.isDesktop(context)
                 ? const EdgeInsets.fromLTRB(15, 5, 20, 5)
                 : const EdgeInsets.fromLTRB(25, 10, 30, 10),
           ),
           iconColor: MaterialStateColor.resolveWith((states) => Colors.black)),
-      onPressed: () => print('Phát'),
+      onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => VideoPlayerScreen(movie: videoContent))),
       icon: const Icon(
         Icons.play_arrow,
         size: 30.0,

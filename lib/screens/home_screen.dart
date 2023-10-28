@@ -2,6 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_mobile/cubits/cubits.dart';
 import 'package:netflix_mobile/data/data.dart';
+import '../data/api.dart';
+import '../models/models.dart';
 import '../widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -60,9 +62,20 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: _scrollController,
           slivers: [
             SliverToBoxAdapter(
-                child: ContentHeader(
-              featuredContent: sintelContent,
-            )),
+              child: FutureBuilder<Content>(
+                future: API.fetchData("API/getData"),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return CircularProgressIndicator();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else {
+                    final featuredContent = snapshot.data;
+                    return ContentHeader(featuredContent: featuredContent!);
+                  }
+                },
+              ),
+            ),
             SliverPadding(
               padding: const EdgeInsets.only(
                 top: 20.0,
@@ -71,21 +84,21 @@ class _HomeScreenState extends State<HomeScreen> {
                   key: PageStorageKey('previews'),
                   child: Preview(
                     title: "Previews",
-                    contentList: previews,
+                    contentList: Data.previews,
                   )),
             ),
             SliverToBoxAdapter(
               key: PageStorageKey('liked'),
               child: ContentList(
                 title: 'Yêu thích',
-                contentList: myList,
+                contentList: Data.myList,
               ),
             ),
             SliverToBoxAdapter(
               key: PageStorageKey('originals'),
               child: ContentList(
                 title: 'Netflix Originals',
-                contentList: myList,
+                contentList: Data.myList,
                 isOriginal: true,
               ),
             ),
@@ -95,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen> {
               sliver: SliverToBoxAdapter(
                 child: ContentList(
                   title: 'Thịnh hành',
-                  contentList: myList,
+                  contentList: Data.myList,
                 ),
               ),
             ),

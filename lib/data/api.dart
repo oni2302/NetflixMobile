@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:netflix_mobile/models/models.dart';
 
 class API {
-  static final String ip = "http://192.168.0.91";
+  static final String ip = "http://192.168.1.203";
+  //Fetch JSON data from API;
   static Future<Content> fetchData(String url) async {
     final dio = Dio();
     final response = await dio.get(ip + "/" + url);
@@ -23,10 +24,7 @@ class API {
     }
   }
 
-  static Image loadImageUrl(String url) {
-    return Image(image:NetworkImage(API.ip+"/API/getImage/?url="+url));
-  }
-
+  //Fetch List JSON data from API
   static Future<List<Content>> fetchListData(String url) async {
     final dio = Dio();
     final response = await dio.get(url);
@@ -44,5 +42,10 @@ class API {
     } else {
       return [];
     }
+  }
+
+  //LoadImage
+  static Image loadImageUrl(String url) {
+    return Image(image: NetworkImage(API.ip + "/API/getImage/?url=" + url));
   }
 }

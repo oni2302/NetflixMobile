@@ -1,12 +1,11 @@
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_mobile/models/models.dart';
 
 class API {
-  static final String ip = "http://192.168.1.203";
+  static final String ip = "http://192.168.145.170";
   //Fetch JSON data from API;
   static Future<Content> fetchData(String url) async {
     final dio = Dio();

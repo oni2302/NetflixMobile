@@ -23,7 +23,7 @@ class CustomAppBar extends StatelessWidget {
 }
 
 class _CustomAppBarMobile extends StatelessWidget {
-  const _CustomAppBarMobile({super.key});
+  const _CustomAppBarMobile();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +60,7 @@ class _CustomAppBarMobile extends StatelessWidget {
 }
 
 class _CustomAppBarDesktop extends StatelessWidget {
-  const _CustomAppBarDesktop({super.key});
+  const _CustomAppBarDesktop();
 
   @override
   Widget build(BuildContext context) {

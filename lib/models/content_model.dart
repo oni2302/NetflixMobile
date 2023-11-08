@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
 
 class Content {
   final String name;
@@ -11,22 +10,25 @@ class Content {
   String description;
   Color color;
   String cardImage;
+  String banner;
 
   Content({
     this.name = '',
+    this.banner ='',
     this.imageUrl = '',
     this.titleImageUrl = '',
     this.videoUrl = '',
     this.description = '',
-    this.cardImage='',
+    this.cardImage = '',
     this.color = Colors.red,
   });
   factory Content.fromJson(Map<String, dynamic> json) {
     return Content(
-      name: json['name'],
-      imageUrl: json['imageUrl'],
-      titleImageUrl: json['titleImageUrl'] ?? '',
-      videoUrl: json['videoUrl'] ?? '',
+      banner: json['banner'],
+      name: json['videoName'],
+      imageUrl: json['image1'],
+      titleImageUrl: json['image2'] ?? '',
+      videoUrl: json['link'] ?? '',
       description: json['description'] ?? '',
       color: Color(int.parse(json['color'] ?? '0xFF000000')),
     );

@@ -24,7 +24,7 @@ class ContentHeader extends StatelessWidget {
 
 class _ContentHeaderMobile extends StatelessWidget {
   final Content featuredContent;
-  const _ContentHeaderMobile({super.key, required this.featuredContent});
+  const _ContentHeaderMobile({required this.featuredContent});
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +89,7 @@ class _ContentHeaderMobile extends StatelessWidget {
 
 class _ContentHeaderDesktop extends StatefulWidget {
   final Content featuredContent;
-  const _ContentHeaderDesktop({super.key, required this.featuredContent});
+  const _ContentHeaderDesktop({required this.featuredContent});
 
   @override
   State<_ContentHeaderDesktop> createState() => _ContentHeaderDesktopState();

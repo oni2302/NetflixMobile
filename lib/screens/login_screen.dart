@@ -18,7 +18,9 @@ class LoginScreen extends StatelessWidget {
       }
       if (user.isLoggedIn) {
         return "Tài khoản đã được đăng nhập ở nơi khác, tối đa 1 thiết bị.";
-      } else {
+      } else if(user.currentPlan==-1){
+        return "Vui lòng đăng ký gói để sử dụng dịch vụ.";
+      } else{
         API.changeSession(user.id,true);
         CurrentUser().getInstance.put('user', user);
         return null;

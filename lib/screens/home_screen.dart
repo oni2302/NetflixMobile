@@ -63,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
           slivers: [
             SliverToBoxAdapter(
               child: FutureBuilder<Content>(
-                future: API.fetchData("API/getData"),
+                future: API.fetchData("API/getData/"),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return CircularProgressIndicator();

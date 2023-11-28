@@ -2,6 +2,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_mobile/data/api.dart';
 import 'package:netflix_mobile/models/models.dart';
+import 'package:netflix_mobile/models/user_singleton.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoPlayerScreen extends StatefulWidget {
@@ -22,6 +23,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     _controller = VideoPlayerController.networkUrl(
         Uri.parse(API.ip + widget.movie.videoUrl));
     _chewieController = ChewieController(
+      startAt: Duration(hours: widget.movie.hour,minutes: widget.movie.minute,seconds: widget.movie.second),
       videoPlayerController: _controller,
       aspectRatio: 16 / 9, // Adjust the aspect ratio as needed
       autoPlay: true,
@@ -32,11 +34,26 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         cancelButtonText: 'Hủy',
       ),
     );
+    _chewieController.addListener(() async {
+      if (!_chewieController.isPlaying) {
+        int id = CurrentUser().getInstance.getAt(0)!.id;
+        Duration? stoppedTime =
+            await _chewieController.videoPlayerController.position;
+        API.saveHistory(id, widget.movie.id, stoppedTime!.inHours,
+            stoppedTime.inMinutes, stoppedTime.inSeconds);
+      }
+    });
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     super.dispose();
+    int id = CurrentUser().getInstance.get('user')!.id;
+    Duration? stoppedTime =
+        await _chewieController.videoPlayerController.position;
+    API.saveHistory(id, widget.movie.id, stoppedTime!.inHours,
+        stoppedTime.inMinutes, stoppedTime.inSeconds);
+
     _controller.dispose();
   }
 

@@ -73,7 +73,7 @@ class _ContentHeaderMobile extends StatelessWidget {
                 title: 'Danh sách',
                 onTap: () => print('list'),
               ),
-              _PlayButton(videoContent:featuredContent),
+              _PlayButton(videoContent: featuredContent),
               VerticalIconButton(
                 icon: Icons.info_outline,
                 title: 'Thông tin',
@@ -182,7 +182,7 @@ class _ContentHeaderDesktopState extends State<_ContentHeaderDesktop> {
                 ),
                 Row(
                   children: [
-                    _PlayButton(videoContent:widget.featuredContent),
+                    _PlayButton(videoContent: widget.featuredContent),
                     const SizedBox(
                       width: 16.0,
                     ),

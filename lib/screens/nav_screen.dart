@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:netflix_mobile/cubits/cubits.dart';
+import 'package:netflix_mobile/screens/history_screen.dart';
 import 'package:netflix_mobile/screens/home_screen.dart';
+import 'package:netflix_mobile/screens/setting_screen.dart';
 import 'package:netflix_mobile/widgets/widgets.dart';
 
 class NavScreen extends StatefulWidget {
@@ -16,17 +18,19 @@ class _NavScreenState extends State<NavScreen> {
     HomeScreen(
       key: PageStorageKey('homeScreen'),
     ),
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
+    HistoryScreen(
+      key:PageStorageKey('historyScreen'),
+    ),
+    SettingScreen(),
+    // Scaffold(),
+    // Scaffold(),
   ];
   final Map<String, IconData> _icons = const {
     'Trang chủ': Icons.home,
-    'Tìm kiếm': Icons.search,
-    'Sắp diễn ra': Icons.queue_play_next,
-    'Tải xuống': Icons.file_download,
-    'Thêm': Icons.menu,
+    'Lịch sử': Icons.history,
+    // 'Sắp diễn ra': Icons.queue_play_next,
+    // 'Tải xuống': Icons.file_download,
+    'Cài đặt': Icons.settings,
   };
   int _currentIndex = 0;
   @override
